@@ -5,7 +5,7 @@ function titleClickHandler(event){
   const clickedElement = this;
   console.log('Link was clicked!');
 
-const activeLinks = document.querySelectorAll('.titles a.active');
+  const activeLinks = document.querySelectorAll('.titles a.active');
 
   for(let activeLink of activeLinks){
     activeLink.classList.remove('active');
@@ -68,4 +68,4 @@ console.log('links:', links);
 
 for(let link of links){
   link.addEventListener('click', titleClickHandler);
-}
+}  
