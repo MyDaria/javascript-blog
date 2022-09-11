@@ -4,6 +4,7 @@ const templates = {
   articleLink: Handlebars.compile(document.querySelector('#template-article-link').innerHTML),
   articleTag: Handlebars.compile(document.querySelector('#template-article-tag').innerHTML),
   tagCloudLink: Handlebars.compile(document.querySelector('#template-tag-cloud-link').innerHTML),
+  authorCloudLink: Handlebars.compile(document.querySelector('#template-author-cloud-link').innerHTML),
   articleAuthor: Handlebars.compile(document.querySelector('#template-article-author').innerHTML),
 };
 
@@ -113,7 +114,6 @@ function generateTags(){
       const linkHTML = templates.articleTag(linkHTMLData);
       html = html + '  ' + linkHTML;
 
- 
       if(!allTags.hasOwnProperty(tag)){
  
         allTags[tag] = 1;
@@ -125,10 +125,10 @@ function generateTags(){
   }
 
   const tagList = document.querySelector(optTagsListSelector);
-  console.log('tagList:', tagList);
+  //console.log('tagList:', tagList);
 
   const tagsParams = calculateTagsParams(allTags);
-  console.log('tagsParams:', tagsParams);
+  //console.log('tagsParams:', tagsParams);
 
   //let allTagsHTML = '';
   const allTagsData = {tags: []};
@@ -144,7 +144,7 @@ function generateTags(){
   }
   //tagList.innerHTML = allTagsHTML;
   tagList.innerHTML = templates.tagCloudLink(allTagsData);
-  console.log('allTagsData', allTagsData);
+  //console.log('allTagsData', allTagsData);
 }
 generateTags();
 
@@ -204,12 +204,11 @@ function generateAuthors(){
 
   for(let article of articles){
     const authorWrapper = article.querySelector(optArticleAuthorSelector);
-
     let html = '';
 
     const authorName =  article.getAttribute('data-author');
     console.log('authorName:', authorName);
-    //const linkHTML = '<a href="#author' + authorName + '"><span>' + 'by ' + authorName + '</span></a>';
+    ///const linkHTML = '<a href="#author' + authorName + '"><span>' + 'by ' + authorName + '</span></a>';
     const linkHTMLData = {id: authorName, title: authorName};
     const linkHTML = templates.articleAuthor(linkHTMLData);
 
@@ -221,25 +220,32 @@ function generateAuthors(){
     } else {
       allAuthors[authorName]++;
     }
+    //authorWrapper.innerHTML = linkHTML;
     authorWrapper.innerHTML = html;
   }
 
   const authorList = document.querySelector(optAuthorsListSelector);
-  console.log('AuthorList:', authorList);
+  console.log('authorList:', authorList);
 
   const authorTagsParams = calculateAuthorsParams(allAuthors);
   console.log('authorTagsParams:', authorTagsParams);
 
-  let allAuthorsHTML = '';
+  //let allAuthorsHTML = '';
+  const allAuthorsData = {authors: []};
 
-  for(let author in allAuthors){
-    const authorLinkHTML = '<li><a href="#author' + author + '"><span>' + author + ' (' + allAuthors[author] + ')' + '</span></a></li>';
-    console.log('authorLinkHTML:', authorLinkHTML);
-    allAuthorsHTML += ' ' + authorLinkHTML;
-
+  for(let authorName in allAuthors){
+    //const authorLinkHTML = '<li><a href="#author' + author + '"><span>' + author + ' (' + allAuthors[author] + ')' + '</span></a></li>';
+    //console.log('authorLinkHTML:', authorLinkHTML);
+    //allAuthorsHTML += ' ' + authorLinkHTML;
+    allAuthorsData.authors.push({
+      author: authorName,
+      count: allAuthors[authorName],
+      className: calculateAuthorsParams(allAuthors[authorName], authorTagsParams),
+    });
   }
-
-  authorList.innerHTML = allAuthorsHTML;
+  //authorList.innerHTML = allAuthorsHTML;
+  authorList.innerHTML = templates.authorCloudLink(allAuthorsData);
+  console.log(' allAuthorsData:',  allAuthorsData);
 }
 
 generateAuthors();
@@ -256,7 +262,7 @@ function authorClickHandler(event){
   }
 
   const authorLinks = document.querySelectorAll('a[href="' + href + '"]');
-  console.log('authorLinks:', authorLinks);
+  //console.log('authorLinks:', authorLinks);
 
   for(let authorLink of authorLinks){
     authorLink.classList.add('active');
@@ -266,7 +272,7 @@ function authorClickHandler(event){
 
 function addClickListenersToAuthors(){   
   const authorLinks = document.querySelectorAll('a[href^="#author"]');
-  console.log('authorLinks:', authorLinks);
+  //console.log('authorLinks:', authorLinks);
 
   for(let authorLink of authorLinks){
     authorLink.addEventListener('click', authorClickHandler);

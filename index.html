@@ -181,9 +181,14 @@
 		  </main>
 		</div>
 	  </div>
-	  <script id="#template-tag-cloud-link" type="text/x-handlebars-template">
+	  <script id="template-tag-cloud-link" type="text/x-handlebars-template">
 		{{#each tags}}
-  		<li>{{ tag }}</li>
+  		<li><a href="#tag-{{tag}}" class="{{className}}"><span>{{tag}} ({{count}}) </span></a></li>
+  		{{/each}}
+	  </script>
+	  <script id="template-author-cloud-link" type="text/x-handlebars-template">
+		{{#each tags}}
+  		<li><a href="#author-{{author}}" class="{{className}}"><span>{{author}} ({{count}}) </span></a></li>
   		{{/each}}
 	  </script>
 	  <script id="template-article-link" type="text/x-handlebars-template">
