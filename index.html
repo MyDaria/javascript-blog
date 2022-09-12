@@ -187,10 +187,10 @@
   		{{/each}}
 	  </script>
 	  <script id="template-author-cloud-link" type="text/x-handlebars-template">
-		{{#each tags}}
-  		<li><a href="#author-{{author}}" class="{{className}}"><span>{{author}} ({{count}}) </span></a></li>
-  		{{/each}}
-	  </script>
+		{{#each authors}}
+		<li><a href="#author-{{ author }}" class="{{className}}"><span></span>{{author}} ({{count}})</span></a></li>
+		{{/each}}
+		</script>
 	  <script id="template-article-link" type="text/x-handlebars-template">
 		<li><a href="#{{ id }}"><span>{{ title }}</span></a></li>
 	  </script>
